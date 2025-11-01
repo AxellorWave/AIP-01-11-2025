@@ -5,6 +5,8 @@ int ** create(size_t rows, size_t cols);
 void construct(int ** mtx, int init, size_t rows, size_t cols);
 void input(int ** mtx, size_t rows, size_t cols);
 void output(int ** mtx, size_t rows, size_t cols);
+int ** convert(const int * t, size_t n, const size_t * lns, size_t rows);
+void test_convert();
 
 int main()
 {
@@ -32,6 +34,8 @@ int main()
   }
   output(matrix, rows, cols);
   destroy(matrix, rows);
+  std::cout << "---------------------\n";
+  test_convert();
 }
 
 void destroy(int ** mtx, size_t created)
@@ -84,4 +88,35 @@ void output(int ** mtx, size_t rows, size_t cols)
     }
     std::cout << "\n";
   }
+}
+
+int ** convert(const int * t, size_t n, const size_t * lns, size_t rows)
+{
+  int ** table = new int * [rows];
+  size_t k = 0;
+  for (size_t i = 0; i < rows; ++i) {
+    table[i] = new int[lns[i]];
+    for (size_t j = 0; j < lns[i]; ++j) {
+      table[i][j] = t[k];
+      ++k;
+    }
+  }
+  return table;
+}
+
+void test_convert()
+{
+  int t[] = {5, 5, 5, 5, 6, 6, 7, 7, 7, 7, 7, 8};
+  size_t n = 12;
+  size_t lns[] = {4, 2, 5, 1};
+  size_t rows = 4;
+  int ** table = convert(t, n, lns, rows);
+  for (size_t i = 0; i < rows; ++i) {
+    std::cout << table[i][0];
+    for (size_t j = 1; j < lns[i]; ++j) {
+      std::cout << " " << table[i][j];
+    }
+    std::cout << "\n";
+  }
+  destroy(table, rows);
 }
