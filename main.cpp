@@ -9,6 +9,11 @@ int main()
   size_t rows = 0;
   size_t cols = 0;
   std::cin >> rows >> cols;
+  if (!std::cin) {
+    std::cerr << "AAAAAAAA BAD ENTER!!!!\n";
+    return 2;
+  }
+
   int ** matrix = nullptr;
   try {
     matrix = create(rows, cols);
@@ -18,7 +23,7 @@ int main()
   }
   construct(matrix, 2, rows, cols);
   std::cout << matrix[0][0] << "\n";
-  destroy(matrix, 5);
+  destroy(matrix, rows);
 }
 
 void destroy(int ** mtx, size_t created)
